@@ -7,10 +7,10 @@ using namespace std;
 
 int main()
 {
-    string inputFileName = "data.txt";
+    string inputFileName = "../data.txt";
     float* vector_r = nullptr;
     float* vector_w = nullptr;
-    int n = 0;
+    size_t n = 0;
     float S = 0;
 
     if (!(genera_valori(inputFileName, n, S, vector_w, vector_r)))
@@ -43,5 +43,3 @@ int main()
 
     return 0;
 }
-
-

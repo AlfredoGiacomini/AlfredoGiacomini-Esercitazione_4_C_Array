@@ -9,43 +9,37 @@
 
 using namespace std;
 
-bool genera_valori( string& nome_file_input,
-                    int& n,
+bool genera_valori( const string& nome_file_input,
+                    size_t& n,
                     float& S,
                     float*& vector_w,
                     float*& vector_r 
                     ){
 
-    string riga;
+    string riga1,riga2;
     int i=0;
-    int j=0;
+    size_t j=0;
     ifstream file_data;
     file_data.open(nome_file_input);
     if (file_data.fail()){
-        cerr << "Errore nell'apertura del file" << endl;
+        cerr << "Errore nell'apertura del file!" << endl;
         return false;
     }
-    while (getline(file_data,riga)){
+
+    while (getline(file_data,riga1,';')&&getline(file_data,riga2)){
         if (i==0){
-        riga.erase(0, 2);
-        stringstream ssS;
-        ssS << riga;
+        stringstream ssS(riga2);
         ssS >> S;
         }
         if (i==1){
-        riga.erase(0, 2);
-        stringstream ssn;
-        ssn << riga;
+        stringstream ssn(riga2);
         ssn >> n;
         vector_r = new  float[n];// allocazione dinamica 
         vector_w = new  float[n];
         }
         if (i>2){
-        stringstream ss(riga);
-        string w_str, r_str;
-        getline(ss, w_str, ';');
-        getline(ss, r_str);
-        stringstream ssw(w_str), ssr(r_str);
+        stringstream ssw(riga1);
+        stringstream ssr(riga2);
         ssw >> vector_w[j];
         ssr >> vector_r[j];
         j++;
@@ -62,32 +56,32 @@ bool genera_valori( string& nome_file_input,
     }
 }
 
-float funzione_rate_of_return(  int& n,
-                                float*& vector_w,
-                                float*& vector_r 
-                    ){
+float funzione_rate_of_return(  const size_t& n,
+                                const float* const& vector_w,
+                                const float* const& vector_r
+                            ){
 float rate_of_return=0;
-int i=0;
+size_t i=0;
 for (i=0 ; i<n ;i++){
     rate_of_return += vector_w[i]*vector_r[i];
     }
 return rate_of_return;
 }
 
-float funzione_final_value( float rate_of_return,
-                            float& S
+float funzione_final_value( const float rate_of_return,
+                            const float& S
                         ){
 float final_value = (( 1 + rate_of_return ) * S);             
 return final_value;
 }
 
-bool genera_file_output(    string nome_file_output,
-                             float& S,
-                             int& n,
-                             float*& vector_w,
-                             float*& vector_r,
-                             float rate_of_return,
-                             float final_value
+bool genera_file_output(     const string nome_file_output,
+                             const float& S,
+                             const size_t& n,
+                             const float* const& vector_w,
+                             const float* const& vector_r,
+                             const float rate_of_return,
+                             const float final_value
                         ){
     ofstream file_output;
     file_output.open(nome_file_output);
@@ -97,13 +91,13 @@ bool genera_file_output(    string nome_file_output,
     }
     file_output << "S = "<< fixed << setprecision(2) << S << ", n = "<< n << endl;
     file_output << "vector_w = [ ";
-    for (int k = 0; k < n; k++)
+    for (size_t k = 0; k < n; k++)
     {
         file_output << vector_w[k] << " ";
     }
     file_output << "]" << endl;
     file_output << "vector_r = [ ";
-    for (int k = 0; k < n; k++)
+    for (size_t k = 0; k < n; k++)
     {
         file_output << vector_r[k] << " ";
     }
@@ -113,6 +107,3 @@ bool genera_file_output(    string nome_file_output,
     file_output.close();
     return true;
 }
-
-
-

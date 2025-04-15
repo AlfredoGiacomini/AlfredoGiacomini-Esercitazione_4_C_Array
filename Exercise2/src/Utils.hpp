@@ -6,27 +6,25 @@
 
 using namespace std;
 
-bool genera_valori(  string& nome_file_input,
-                     int& n,
+bool genera_valori(  const string& nome_file_input,
+                     size_t& n,
                      float& S,
                      float*& vector_w,
                      float*& vector_r);
 
 
-float funzione_rate_of_return(   int& n,
-                                 float*& vector_w,
-                                 float*& vector_r );
+float funzione_rate_of_return(   const size_t& n,
+                                 const float* const& vector_w,
+                                 const float* const& vector_r
+                                  );
 
-float funzione_final_value(  float rate_of_return,
-                             float& S);
+float funzione_final_value(  const float rate_of_return,
+                             const float& S);
 
-bool genera_file_output(    string nome_file_output,
-                             float& S,
-                             int& n,
-                             float*& vector_w,
-                             float*& vector_r,
-                             float rate_of_return,
-                             float final_value);
-
-
-
+bool genera_file_output(     const string nome_file_output,
+                             const float& S,
+                             const size_t& n,
+                             const float* const& vector_w,
+                             const float* const& vector_r,
+                             const float rate_of_return,
+                             const float final_value);
